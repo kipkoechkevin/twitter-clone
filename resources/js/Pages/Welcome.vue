@@ -7,11 +7,7 @@ import TwitterLayout from "@/Layouts/TwitterLayout.vue";
     <Head title="Welcome" />
 
     <TwitterLayout>
-        <div class="text-red-500">
-            Welcome
-        </div>
     </TwitterLayout>
-
 
 </template>
 
