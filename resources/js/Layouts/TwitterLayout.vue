@@ -35,12 +35,41 @@ import MenuItem from "@/Components/MenuItem.vue";
                    <span class="block lg:hidden"><Feather /></span>
                </button>
            </div>
+           <div class="lg:w-7/12 w-11/12 border-x border-gray-800 relative">
+               <div class="bg-black bg-opacity-50 backdrop-blur-md z-10 absolute w-full">
+                   <div class="border-gray-800 border-b w-full">
+                       <div class="w-full text-white text-[22px] font-extrabold p-4">
+                           Home
+                       </div>
+                       <div class="flex">
+                           <div class="flex items-center justify-center w-full h-[60px]
+                                       text-white text-[17px] font-extrabold p-4 hover:bg-gray-500
+                                        hover:bg-opacity-30 cursor-pointer transition duration-200
+                                        ease-in-out ">
+                               <div class="inline-block text-center border-b-4 border-b-[#1C9CEF]
+                                           h-[60px]">
+                                   <div class="my-auto mt-4">For You</div>
+                               </div>
+                           </div>
+
+                           <div class="w-full h-[60px] text-gray-500
+                                        text-[17px] font-extrabold p-4 hover:bg-gray-500
+                                        hover:bg-opacity-30 cursor-pointer transition duration-200
+                                        ease-in-out ">
+                                   <div class="text-center">Following</div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+
+           </div>
        </div>
    </div>
+
 </template>
 
 <style>
     body{
-        background-color: #15202B;
+        background-color: black;
     }
 </style>
