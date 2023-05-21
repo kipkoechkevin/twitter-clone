@@ -14,7 +14,36 @@ import Emoticon from 'vue-material-design-icons/Emoticon.vue';
 import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue';
 import MenuItem from "@/Components/MenuItem.vue";
 
+
+let randImg1 = ref(`https://picsum.photos/id/${(Math.random() * 200).toFixed(0)}/100`)
 let randImg2 = ref(`https://picsum.photos/id/${(Math.random() * 200).toFixed(0)}/100`)
+
+let tweet = ref('');
+let textarea = ref(null);
+let file = ref('');
+let showUpload = ref('');
+let uploadType = ref('');
+
+let createTweet = ref(false);
+
+const getFile = (e) => {
+    file.value = e.target.files[0];
+    showUpload.value = URL.createObjectURL(e.target.files[0]);
+    uploadType.value = file.value.name.split('.').pop();
+}
+
+const closedMessageBox = () => {
+    createTweet.value = false;
+    tweet.value = '';
+    file.value = '';
+    showUpload.value = '';
+    uploadType.value = '';
+}
+
+const textareaInput = (e) => {
+    textarea.value.style.height = "auto";
+    textarea.value.style.height = `${e.target.scrollHeight}px`;
+}
 
 </script>
 
@@ -33,13 +62,13 @@ let randImg2 = ref(`https://picsum.photos/id/${(Math.random() * 200).toFixed(0)}
                 <MenuItem iconString="Messages"/>
                 <MenuItem iconString="Profile"/>
 
-               <button class="lg:w-full mt-8 ml-2 text-white font-extrabold text-[22px
+               <button @click="createTweet = true" class="lg:w-full mt-8 ml-2 text-white font-extrabold text-[22px
                               bg-[#1C9CEF] p-3 px-3 rounded-full cursor-pointer">
                    <span class="lg:block hidden">Tweet</span>
                    <span class="block lg:hidden"><Feather /></span>
                </button>
            </div>
-           <!-- Left Sidebar -->
+           <!-- Middle Section -->
            <div class="lg:w-7/12 w-11/12 border-x border-gray-800 relative">
                <div class="bg-black bg-opacity-50 backdrop-blur-md z-10 absolute w-full">
                    <div class="border-gray-800 border-b w-full">
@@ -68,7 +97,7 @@ let randImg2 = ref(`https://picsum.photos/id/${(Math.random() * 200).toFixed(0)}
                </div>
 
            </div>
-           <!-- Middle Section -->
+           <!-- Tweet Section -->
            <div class="absolute top-0 z-0 h-full overflow-auto scrollbar-hide">
               <div class="mt-[126px]"></div>
                <slot/>
@@ -120,6 +149,79 @@ let randImg2 = ref(`https://picsum.photos/id/${(Math.random() * 200).toFixed(0)}
            </div>
        </div>
    </div>
+
+   <div v-if="createTweet" id="overlaySection" class="fixed top-0 left-0 w-full h-screen bg-black md:bg-gray-400 md:bg-opacity-30 md:p-3">
+        <div class="md:max-w-2xl md:mx-auto md:mt-10 md:rounded-xl bg-black">
+            <div class="flex items-center justify-between md:inline-block p-2 m-2 rounded-full cursor-pointer">
+                <div @click="closedMessageBox" class="hover:bg-gray-800 inline-block p-2 rounded-full cursor pointer">
+                     <Close fill-color="#FFFFFF" :size="28" class="md:block hidden" />
+                     <ArrowLeft fill-color="#FFFFFF" :size="28" class="md:hidden block" />
+                </div>
+
+                <button disabled="!tweet"
+                    :class="tweet ? 'bg-[#1C9CEF] text-white' : 'bg-[#124D77] text-gray-400'"
+                    class="md:hidden font-extrabold text-[16px] p-1.5 px-4 rounded-full cursor-pointer">
+                    Tweet
+                </button>
+            </div>
+            <div class="w-full flex">
+                <div class="ml-3 5 mr-2">
+                    <img class="rounded-full" width="55" :src="randImg1" alt="">
+                </div>
+                <div class="w-[calc(100%-100px)]">
+                    <div class="inline-block">
+                        <div class="flex items-center border border-gray-700 rounded-full">
+                          <span class="text-[#1C9CEF] p-0.5 pl-3.5 font-extrabold">
+                              Everyone
+                          </span>
+                            <ChevronDown fill-color="#1C9CEF" :size="25" class="pr-2" />
+                        </div>
+                    </div>
+                    <div>
+                        <textarea
+                            :oninput="textareaInput"
+                            v-model="tweet"
+                            ref="textarea"
+                            cols="30"
+                            rows="4"
+                            placeholder="What's happening?"
+                            class="w-full bg-black border-0 mt-2 focus:ring-0 text-white text-[19px] font-extrabold min-h-[120px]"
+                        ></textarea>
+                    </div>
+                    <div class="w-full">
+                        <video controls v-if="uploadType === 'mp4' " :src="showUpload" class="rounded-xl overflow-auto"></video>
+                        <img :src="showUpload" class="rounded-xl min-w-full" alt="">
+                    </div>
+                    <div class="flex py-2 items-center font-extrabold text-[#1C9CEF]">
+                        <Earth fill-color="#1C9CEF" :size="20" class="pr-2" /> Everyone can reply
+                    </div>
+                    <div class="border-b border-gray-700"></div>
+                    <div class="flex items-center justify-between py-2">
+                        <div class="flex items-center">
+                            <div class="hover:bg-gray-800 inline-block p-2 rounded-full cursor-pointer">
+                                <label for="fileUpload" class="cursor-pointer">
+                                    <ImageOutline fill-color="#1C9CEF" :size="25" />
+                                </label>
+                                <input type="file" id="fileUpload" class="hidden" @change="getFile">
+                            </div>
+                            <div class="hover:bg-gray-800 inline-block p-2 rounded-full cursor-pointer">
+                                    <FileGifBox fill-color="#1C9CEF" :size="25" />
+                            </div>
+                            <div class="hover:bg-gray-800 inline-block p-2 rounded-full cursor-pointer">
+                                    <Emoticon fill-color="#1C9CEF" :size="25" />
+                            </div>
+                        </div>
+                        <button disabled="!tweet"
+                                :class="tweet ? 'bg-[#1C9CEF] text-white' : 'bg-[#124D77] text-gray-400'"
+                                class="md:block hidden font-extrabold text-[16px] p-1.5 px-4 rounded-full cursor-pointer">
+                            Tweet
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+
 
 </template>
 
