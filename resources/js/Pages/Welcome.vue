@@ -2,6 +2,12 @@
 import { Head, Link } from '@inertiajs/vue3';
 import TwitterLayout from "@/Layouts/TwitterLayout.vue";
 import Tweet from "@/Components/Tweet.vue";
+
+defineProps({
+    tweets: {
+        type: Array,
+    },
+});
 </script>
 
 <template>
@@ -9,20 +15,8 @@ import Tweet from "@/Components/Tweet.vue";
 
     <TwitterLayout>
         <div class="text-white">
-            <div class="flex">
-                <Tweet :tweet="{
-                id: 1,
-                name: 'John Doe',
-                handle: '@johndoe',
-                image: 'https://i.pravatar.cc/50?u=johndoe',
-                tweet: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
-                file:'/videos/video.mp4',
-                is_video: true,
-                likes: 10,
-                retweets: 20,
-                comments: 30,
-                analytics:'56',
-            }"/>
+            <div class="flex" v-for="twat in tweets" :key="twat.id">
+                <Tweet :tweet="twat"/>
             </div>
             <div class="border-b border-b-gray-800 mt-2">
             </div>
