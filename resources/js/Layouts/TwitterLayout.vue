@@ -95,14 +95,14 @@ const textareaInput = (e) => {
                        </div>
                    </div>
                </div>
+               <!-- Tweet Section -->
+               <div class="absolute top-0 z-0 h-full overflow-auto scrollbar-hide">
+                   <div class="mt-[126px]"></div>
+                   <slot/>
+                   <div class="pb-4"></div>
+               </div>
+           </div>
 
-           </div>
-           <!-- Tweet Section -->
-           <div class="absolute top-0 z-0 h-full overflow-auto scrollbar-hide">
-              <div class="mt-[126px]"></div>
-               <slot/>
-               <div class="pb-4"></div>
-           </div>
            <!-- Right Sidebar Trending Section-->
            <div class="lg:block hidden lg:w-4/12 h-screen border-l border-gray-800 pl-4">
                 <div class="p-1 w-full mt-2 px-4 lg:flex items-center rounded-full hidden bg-[#212327]">
