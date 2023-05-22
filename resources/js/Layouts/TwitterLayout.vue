@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
+
 import { router } from '@inertiajs/vue3';
+
 import Twitter from 'vue-material-design-icons/Twitter.vue';
 import Magnify from 'vue-material-design-icons/Magnify.vue';
 import DotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue';
@@ -45,6 +47,23 @@ const textareaInput = (e) => {
     textarea.value.style.height = `${e.target.scrollHeight}px`;
 }
 
+const addTweet = () => {
+
+    if (!tweet.value) {
+        return;
+    }
+
+    let formData = new FormData();
+    formData.append('tweet', tweet.value);
+    formData.append('file', file.value);
+
+     router.post('/tweets', formData)
+
+    createTweet.value = false;
+    tweet.value = '';
+    showUpload.value = '';
+    uploadType.value = '';
+}
 </script>
 
 <template>
@@ -150,7 +169,9 @@ const textareaInput = (e) => {
        </div>
    </div>
 
-   <div v-if="createTweet" id="overlaySection" class="fixed top-0 left-0 w-full h-screen bg-black md:bg-gray-400 md:bg-opacity-30 md:p-3">
+   <div v-if="createTweet"
+        id="overlaySection"
+        class="fixed top-0 left-0 w-full h-screen bg-black md:bg-gray-400 md:bg-opacity-30 md:p-3">
         <div class="md:max-w-2xl md:mx-auto md:mt-10 md:rounded-xl bg-black">
             <div class="flex items-center justify-between md:inline-block p-2 m-2 rounded-full cursor-pointer">
                 <div @click="closedMessageBox" class="hover:bg-gray-800 inline-block p-2 rounded-full cursor pointer">
@@ -158,7 +179,8 @@ const textareaInput = (e) => {
                      <ArrowLeft fill-color="#FFFFFF" :size="28" class="md:hidden block" />
                 </div>
 
-                <button disabled="!tweet"
+                <button @click="addTweet()"
+                        :disabled="!tweet"
                     :class="tweet ? 'bg-[#1C9CEF] text-white' : 'bg-[#124D77] text-gray-400'"
                     class="md:hidden font-extrabold text-[16px] p-1.5 px-4 rounded-full cursor-pointer">
                     Tweet
@@ -211,7 +233,8 @@ const textareaInput = (e) => {
                                     <Emoticon fill-color="#1C9CEF" :size="25" />
                             </div>
                         </div>
-                        <button disabled="!tweet"
+                        <button @click="addTweet()"
+                                :disabled="!tweet"
                                 :class="tweet ? 'bg-[#1C9CEF] text-white' : 'bg-[#124D77] text-gray-400'"
                                 class="md:block hidden font-extrabold text-[16px] p-1.5 px-4 rounded-full cursor-pointer">
                             Tweet

@@ -47,10 +47,9 @@ class TweetController extends Controller
 
         $tweet->name = 'Kevin Koech';
         $tweet->handle = '@kevinkoech';
-        $tweet->image = 'https://pbs.twimg.com/profile_images/1412724388397824000/5Q2Z3X8-_400x400.jpg';
+        $tweet->image = 'https://picsum.photos/200';
         $tweet->tweet = $request->input('tweet');
         if ($fileName) {
-
             $tweet->file = $path . $fileName;
             $tweet->is_video = $extension === 'mp4';
             $file->move(public_path() . $path, $fileName);
@@ -77,6 +76,6 @@ class TweetController extends Controller
 
        $tweet->delete();
 
-       return redirect()->route('tweets.index');
+       return redirect()->route('home');
     }
 }
